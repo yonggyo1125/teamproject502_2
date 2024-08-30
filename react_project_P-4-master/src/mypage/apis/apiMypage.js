@@ -1,4 +1,6 @@
-import apiRequest from '../../commons/libs/apiRequest';
 import requestData from '../../commons/libs/requestData';
+import saveProcess from '../../commons/libs/saveProcess';
 
-export const updateProfile = (form) => 
+// 회원정보 수정
+export const updateProfile = (form) =>
+  saveProcess('/mypage/profile', 'PATCH', form);
