@@ -54,9 +54,8 @@ public class ReservationController {
      */
     @GetMapping("/cancel/{orderNo}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Void> cancel(@PathVariable("orderNo") Long orderNo) {
-
-        return null;
+    public void cancel(@PathVariable("orderNo") Long orderNo) {
+        cancelService.cancel(orderNo);
     }
 
     public void payProcess() {
