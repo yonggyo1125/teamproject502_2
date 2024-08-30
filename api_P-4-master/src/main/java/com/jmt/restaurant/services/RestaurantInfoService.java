@@ -285,7 +285,8 @@ public class RestaurantInfoService {
         // 이미지가 없는 식당 이미지 업데이트 S
         List<RestaurantImage> images = item.getImages();
         if (images == null || images.isEmpty()) {
-            imageService.update(item.getRstrId(), item);
+            List<RestaurantImage> _images = imageService.update(item.getRstrId(), item);
+            item.setImages(_images);
         }
         // 이미지가 없는 식당 이미지 업데이트 E
     }
