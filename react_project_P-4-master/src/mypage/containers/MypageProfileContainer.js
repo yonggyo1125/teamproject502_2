@@ -20,7 +20,14 @@ const MypageProfileContainer = () => {
     e.preventDefault();
   }, []);
 
-  return <ProfileForm form={form} onChange={onChange} onSubmit={onSubmit} />;
+  return (
+    <ProfileForm
+      form={form}
+      onChange={onChange}
+      onSubmit={onSubmit}
+      errors={errors}
+    />
+  );
 };
 
 export default React.memo(MypageProfileContainer);
