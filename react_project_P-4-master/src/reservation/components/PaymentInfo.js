@@ -8,7 +8,7 @@ import {
 
 const Wrapper = styled.div``;
 
-const PaymentInfo = ({ payConfig, form, data, onPayMethod }) => {
+const PaymentInfo = ({ payConfig, form, data, onPayMethod, payMethod }) => {
   const { t } = useTranslation();
 
   const payMethods = {
@@ -55,7 +55,11 @@ const PaymentInfo = ({ payConfig, form, data, onPayMethod }) => {
           {payConfig.payMethods.map((m) => (
             <>
               <span onClick={() => onPayMethod(m)}>
-                <MdOutlineRadioButtonUnchecked />
+                {payMethod === m ? (
+                  <MdOutlineRadioButtonChecked />
+                ) : (
+                  <MdOutlineRadioButtonUnchecked />
+                )}
                 {payMethods[m]}
               </span>
             </>

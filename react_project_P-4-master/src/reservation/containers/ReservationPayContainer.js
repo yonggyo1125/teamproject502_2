@@ -6,8 +6,10 @@ import PaymentInfo from '../components/PaymentInfo';
 const returnUrl = `${window.location.origin}/payment/process`;
 const closeUrl = `${window.location.origin}/payment/close`;
 const ReservationPayContainer = ({ payConfig, form, data, setPageTitle }) => {
+  const initialPayMethod =
+    payConfig?.payMethods?.length > 0 ? payConfig.payMethods[0] : '';
   const { t } = useTranslation();
-  const [payMethod, setPayMethod] = useState(payConfig?.payMethod[0]);
+  const [payMethod, setPayMethod] = useState(initialPayMethod);
 
   useEffect(() => {
     setPageTitle(data.rstrNm + ' ' + t('예약결제하기'));
@@ -17,12 +19,15 @@ const ReservationPayContainer = ({ payConfig, form, data, setPageTitle }) => {
     window.INIStdPay.pay('inicisForm');
   }, []);
 
-  const onPayMethod = useCallback((payMethod) => {}, []);
+  const onPayMethod = useCallback((payMethod) => {
+    setPayMethod(payMethod);
+  }, []);
 
   return (
     <>
       <PaymentInfo
         payConfig={payConfig}
+        payMethod={payMethod}
         form={form}
         data={data}
         onPayMethod={onPayMethod}
@@ -32,7 +37,7 @@ const ReservationPayContainer = ({ payConfig, form, data, setPageTitle }) => {
       </BigButton>
       <form id="inicisForm" method="POST">
         <input type="hidden" name="version" value="1.0" />
-        <input type="hidden" name="gopaymethod" value="VBank" />
+        <input type="hidden" name="gopaymethod" value={payMethod} />
         <input type="hidden" name="mid" value={payConfig.mid} />
         <input type="hidden" name="oid" value={payConfig.oid} />
         <input type="hidden" name="price" value={payConfig.price} />
