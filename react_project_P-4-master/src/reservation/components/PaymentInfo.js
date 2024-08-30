@@ -3,13 +3,19 @@ import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import {
   MdOutlineRadioButtonChecked,
-  MdOutlineRadioButton,
+  MdOutlineRadioButtonUnchecked,
 } from 'react-icons/md';
 
 const Wrapper = styled.div``;
 
-const PaymentInfo = ({ payConfig, form, data }) => {
+const PaymentInfo = ({ payConfig, form, data, onPayMethod }) => {
   const { t } = useTranslation();
+
+  const payMethods = {
+    CARD: t('신용카드'),
+    DirectBank: t('계좌이체'),
+    VBank: t('가상계좌'),
+  };
 
   return (
     <Wrapper>
@@ -41,6 +47,19 @@ const PaymentInfo = ({ payConfig, form, data }) => {
         <dd>
           {payConfig?.price?.toLocaleString()}
           {t('원')}
+        </dd>
+      </dl>
+      <dl>
+        <dt>{t('결제방법')}</dt>
+        <dd>
+          {payConfig.payMethods.map((m) => (
+            <>
+              <span onClick={() => onPayMethod(m)}>
+                <MdOutlineRadioButtonUnchecked />
+                {payMethods[m]}
+              </span>
+            </>
+          ))}
         </dd>
       </dl>
     </Wrapper>

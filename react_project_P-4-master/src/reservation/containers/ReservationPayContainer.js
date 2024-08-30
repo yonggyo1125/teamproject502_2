@@ -7,6 +7,7 @@ const returnUrl = `${window.location.origin}/payment/process`;
 const closeUrl = `${window.location.origin}/payment/close`;
 const ReservationPayContainer = ({ payConfig, form, data, setPageTitle }) => {
   const { t } = useTranslation();
+  const [payMethod, setPayMethod] = useState(payConfig?.payMethod[0]);
 
   useEffect(() => {
     setPageTitle(data.rstrNm + ' ' + t('예약결제하기'));
@@ -16,9 +17,16 @@ const ReservationPayContainer = ({ payConfig, form, data, setPageTitle }) => {
     window.INIStdPay.pay('inicisForm');
   }, []);
 
+  const onPayMethod = useCallback((payMethod) => {}, []);
+
   return (
     <>
-      <PaymentInfo payConfig={payConfig} form={form} data={data} />
+      <PaymentInfo
+        payConfig={payConfig}
+        form={form}
+        data={data}
+        onPayMethod={onPayMethod}
+      />
       <BigButton type="button" color="jmt" onClick={onPayProcess}>
         {t('결제하기')}
       </BigButton>
