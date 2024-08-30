@@ -15,12 +15,17 @@ function getQueryString(searchParams) {
       qs[k] = v;
     }
   }
+
   return qs;
 }
 
 const SearchContainer = () => {
   const [searchParams] = useSearchParams();
   const [search, setSearch] = useState(() => getQueryString(searchParams));
+  const [searchTmp, setSearchTmp] = useState({
+    sopt: 'ALL',
+    page: 1,
+  });
   const [items, setItems] = useState([]);
   const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(false);
@@ -67,13 +72,19 @@ const SearchContainer = () => {
 
   /* 검색 관련 함수 */
   const onChangeSearch = useCallback((e) => {
-    setSearch((search) => ({ ...search, [e.target.name]: [e.target.value] }));
+    setSearchTmp((search) => ({
+      ...search,
+      [e.target.name]: [e.target.value],
+    }));
   }, []);
 
-  const onSubmitSearch = useCallback((e) => {
-    e.preventDefault();
-    setSearch((search) => ({ ...search, page: 1 }));
-  }, []);
+  const onSubmitSearch = useCallback(
+    (e) => {
+      e.preventDefault();
+      setSearch({ ...searchTmp, page: 1 });
+    },
+    [searchTmp],
+  );
 
   /* 페이지 변경 함수 */
   const onChangePage = useCallback((page) => {
