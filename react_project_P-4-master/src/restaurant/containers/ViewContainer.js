@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import Loading from '../../commons/components/Loading';
-import { apiGet } from '../apis/apiInfo';
+import { apiGet, apiReview } from '../apis/apiInfo';
 import { useParams } from 'react-router-dom';
 import KakaoMap from '../../kakaoapi/KakaoMap';
 import ItemImage from '../components/ItemImage';
@@ -35,25 +35,31 @@ const ViewContainer = ({ setPageTitle }) => {
   const [loading, setLoading] = useState(false);
   const [mapOptions, setMapOptions] = useState({ height: '300px', zoom: 3 });
   const viewRef = useRef(null);
-  
+
   const { rstrId } = useParams();
 
   useEffect(() => {
     setLoading(true);
 
-    apiGet(rstrId).then((item) => {
-      setPageTitle(item.rstrNm);
-      setItem(item);
-      const position = { lat: item.rstrLa, lng: item.rstrLo };
-      setMapOptions((opt) => {
-        const options = item.rstrLa
-          ? { ...opt, center: position, marker: position }
-          : { ...opt, address: item.rstrRdnmAdr };
+    (async () => {
+      try {
+        const item = await apiGet(rstrId);
 
-        return options;
-      });
-    });
+        setPageTitle(item.rstrNm);
+        setItem(item);
+        
+        const position = { lat: item.rstrLa, lng: item.rstrLo };
+        setMapOptions((opt) => {
+          const options = item.rstrLa
+            ? { ...opt, center: position, marker: position }
+            : { ...opt, address: item.rstrRdnmAdr };
 
+          return options;
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    })();
     setLoading(false);
   }, [rstrId, setPageTitle]);
 
@@ -71,16 +77,18 @@ const ViewContainer = ({ setPageTitle }) => {
         {item?.images?.length && <ItemImage images={item.images} />}
       </Wrapper>
       <ItemDescription item={item} />
-      <Seperator/>
-      <ItemTabmenu item={item}/>
-      <Seperator/>
-      
-        <h3>{t('매장위치')}</h3>
-        <KakaoMap {...mapOptions} />
-        <div> {item.rstrRdnmAdr} / {item.rstrLnnoAdres}</div>
-      <Seperator/>
-      <FloatingBarContainer item={item} viewRef={viewRef}/>
-      
+      <Seperator />
+      <ItemTabmenu item={item} />
+      <Seperator />
+
+      <h3>{t('매장위치')}</h3>
+      <KakaoMap {...mapOptions} />
+      <div>
+        {' '}
+        {item.rstrRdnmAdr} / {item.rstrLnnoAdres}
+      </div>
+      <Seperator />
+      <FloatingBarContainer item={item} viewRef={viewRef} />
     </ViewWrapper>
   );
 };

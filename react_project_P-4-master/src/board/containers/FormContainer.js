@@ -52,7 +52,7 @@ const FormContainer = ({ setPageTitle }) => {
     (async () => {
       try {
         const res = await apiGet(rstrId);
-        setForm((form) => ({ ...form, restaurant: res }));
+        setForm((form) => ({ ...form, num1: rstrId, restaurant: res }));
       } catch (err) {
         console.error(err);
       }
@@ -258,7 +258,7 @@ const FormContainer = ({ setPageTitle }) => {
             // 식당 후기
             url = `/restaurant/info/${form.num1}`;
           }
-          
+
           navigate(url, { replace: true });
         } catch (err) {
           setErrors(err.message);

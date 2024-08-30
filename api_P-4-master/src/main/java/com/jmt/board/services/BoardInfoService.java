@@ -102,6 +102,12 @@ public class BoardInfoService {
             andBuilder.and(boardData.board.bid.in(bids));
         }
 
+        /* num1 검색 조건 추가 - 식당 등록 번호 */
+        Long num1 = search.getNum1();
+        if (num1 != null) {
+            andBuilder.and(boardData.num1.eq(num1));
+        }
+
         /**
          * 조건 검색 처리
          *

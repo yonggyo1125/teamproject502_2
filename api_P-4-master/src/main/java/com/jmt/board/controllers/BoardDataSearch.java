@@ -14,4 +14,5 @@ public class BoardDataSearch extends CommonSearch {
     private List<String> bids; // 게시한 ID 여러개
 
     private String sort; // 정렬 조건
+    private Long num1; // 식당 등록 번호
 }
