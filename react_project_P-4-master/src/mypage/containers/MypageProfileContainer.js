@@ -47,12 +47,21 @@ const MypageProfileContainer = () => {
         }
       }
 
+      // 비밀번호가 입력된 경우 비밀번호 확인 일치여부 체크
+      if (!hasErrors && form.password !== form.confirmPassword) {
+        _errors.confirmPassword = _errors.confirmPassword ?? [];
+        _errors.confirmPassword.push(t('비밀번호가_일치하지_않습니다.'));
+        hasErrors = true;
+      }
+
       setErrors(_errors);
       if (hasErrors) {
         return;
       }
 
-      
+      // 회원정보 수정 처리 S
+
+      // 회원정보 수정 처리 E
     },
     [t, form],
   );
