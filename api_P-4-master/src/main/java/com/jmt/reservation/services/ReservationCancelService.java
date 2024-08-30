@@ -16,7 +16,7 @@ public class ReservationCancelService {
     private final ReservationStatusService statusService;
     private final MemberUtil memberUtil;
 
-    public void cancel(Long orderNo) {
+    public Reservation cancel(Long orderNo) {
         Reservation item = infoService.get(orderNo);
         Member member = memberUtil.getMember();
         Member rMember = item.getMember();
@@ -28,8 +28,14 @@ public class ReservationCancelService {
 
         if (status == APPLY || status == START) {
             statusService.change(orderNo, CANCEL);
+            item.setStatus(CANCEL);
+            item.setStatusStr(CANCEL.name());
         } else if (status == CONFIRM) {
             statusService.change(orderNo, REFUND);
+            item.setStatus(REFUND);
+            item.setStatusStr(REFUND.name());
         }
+
+        return item;
     }
 }

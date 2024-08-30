@@ -26,6 +26,9 @@ public class Reservation extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ReservationStatus status = ReservationStatus.START;
 
+    @Transient
+    private String statusStr;
+
     //@JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     private Member member;

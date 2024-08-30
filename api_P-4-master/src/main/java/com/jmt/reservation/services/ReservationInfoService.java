@@ -101,5 +101,7 @@ public class ReservationInfoService {
 
         int totalPayPrice = price * persons;
         item.setTotalPayPrice(totalPayPrice);
+
+        item.setStatusStr(item.getStatus().name());
     }
 }
