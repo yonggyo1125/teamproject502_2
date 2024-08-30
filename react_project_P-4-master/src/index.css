@@ -1,0 +1,73 @@
+/* 나눔스퀘어 S*/
+@font-face {
+  font-family: "NanumSquareR";
+  src: url('./commons/fonts/font2/NanumSquare_acR.ttf');
+}
+@font-face {
+  font-family: "NanumSquareB";
+  src: url('./commons/fonts/font2/NanumSquare_acB.ttf');
+}
+@font-face {
+  font-family: "NanumSquareEB";
+  src: url('./commons/fonts/font2/NanumSquare_acEB.ttf');
+}
+/* 나눔스퀘어 E*/
+
+@font-face {
+  font-family: "NanumBarunGothic";
+  src: url('./commons/fonts/font1/NanumBarunGothicBold.ttf');
+}
+@font-face {
+  font-family: "NanumSquareRound";
+  src: url('./commons/fonts/font3/NanumSquareRoundB.ttf');
+}
+@font-face {
+  font-family: "cafe24dangdang";
+  src: url('./commons/fonts/font4/Cafe24Ohsquare-v2.0.ttf');
+}
+
+
+* { 
+  box-sizing: border-box; 
+  box-shadow: none;
+  outline: none; 
+  font-family: "NanumSquareR";
+}
+
+html {
+  font-size: 13px;
+}
+
+body { 
+  margin: 0;
+  color: #000;
+}
+
+
+ul, ol, li {
+  list-style: none;
+}
+
+ul, ol, dl, dt, dd {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+img {
+  border: 0;
+}
+
+.layout-width {
+  max-width: 1200px;
+  min-width: 1000px;
+  margin: 0 auto;
+}
+
+.ReactModal__Overlay {
+  background: rgba(0, 0, 0, 0.7) !important;
+}
