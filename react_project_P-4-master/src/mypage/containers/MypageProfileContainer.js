@@ -5,7 +5,6 @@ import UserInfoContext from '../../member/modules/UserInfoContext';
 import ProfileForm from '../component/ProfileForm';
 import ProfileImage from '../component/ProfileImage';
 import { updateProfile } from '../apis/apiMypage';
-import NoProfile from '../../images/profile.webp';
 
 const MypageProfileContainer = () => {
   const {
@@ -92,8 +91,7 @@ const MypageProfileContainer = () => {
 
   const fileUploadCallback = useCallback((files) => {}, []);
 
-  const profileImageUrl = form?.profileImage?.fileUrl ?? NoProfile;
-  const profileImage = <img src={profileImageUrl} alt="profile" />;
+  const profileImage = form?.profileImage?.fileUrl;
   return (
     <>
       <ProfileImage
