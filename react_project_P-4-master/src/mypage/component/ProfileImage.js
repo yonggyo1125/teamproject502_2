@@ -12,6 +12,7 @@ const ProfileImage = ({ gid, profileImage, fileUploadCallback }) => {
         gid={gid}
         imageOnly={true}
         single={true}
+        done={true}
         callback={fileUploadCallback}
       />
     </Wrapper>
