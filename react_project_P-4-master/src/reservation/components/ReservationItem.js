@@ -38,6 +38,7 @@ const Wrapper = styled.div`
 const ReservationItem = ({ item, onCancel }) => {
   const { t } = useTranslation();
   const {
+    orderNo,
     rName,
     rDateTime,
     persons,
@@ -79,7 +80,7 @@ const ReservationItem = ({ item, onCancel }) => {
         <dd>
           {statusStr}
           {['START', 'APPLY', 'CONFIRM'].includes(status) && (
-            <button type="button" onClick={onCancel}>
+            <button type="button" onClick={() => onCancel(orderNo)}>
               {t('예약취소')}
             </button>
           )}
