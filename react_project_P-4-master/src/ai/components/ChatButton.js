@@ -14,8 +14,9 @@ const commonStyle = css`
 `;
 
 export const ChatButton = styled.button`
-  font-size: ${ extraBig };
+  font-size: ${extraBig};
   height: 70px;
+  z-index: 100;
   ${commonStyle}
 
   ${({ color }) =>
