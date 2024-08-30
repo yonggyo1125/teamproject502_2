@@ -73,6 +73,8 @@ const MypageProfileContainer = () => {
           const newForm = res;
           delete newForm.password;
           setForm(newForm);
+
+          navigate('/mypage', { replace: true });
         } catch (err) {
           console.error(err);
           const messages = err.message.global
