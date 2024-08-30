@@ -29,11 +29,11 @@ public class ReservationCancelService {
         if (status == APPLY || status == START) {
             statusService.change(orderNo, CANCEL);
             item.setStatus(CANCEL);
-            item.setStatusStr(CANCEL.name());
+            item.setStatusStr(CANCEL.getTitle());
         } else if (status == CONFIRM) {
             statusService.change(orderNo, REFUND);
             item.setStatus(REFUND);
-            item.setStatusStr(REFUND.name());
+            item.setStatusStr(REFUND.getTitle());
         }
 
         return item;

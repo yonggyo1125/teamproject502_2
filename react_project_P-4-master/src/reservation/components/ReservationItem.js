@@ -35,9 +35,19 @@ const Wrapper = styled.div`
   }
 `;
 
-const ReservationItem = ({ item }) => {
+const ReservationItem = ({ item, onCancel }) => {
   const { t } = useTranslation();
-  const { rName, rDateTime, persons, name, email, mobile, restaurant } = item;
+  const {
+    rName,
+    rDateTime,
+    persons,
+    name,
+    email,
+    mobile,
+    restaurant,
+    status,
+    statusStr,
+  } = item;
 
   return (
     <Wrapper>
@@ -64,7 +74,17 @@ const ReservationItem = ({ item }) => {
         <dt>{t('예약자')}</dt>
         <dd>{name}</dd>
       </dl>
-
+      <dl>
+        <dt>{t('예약상태')}</dt>
+        <dd>
+          {statusStr}
+          {['START', 'APPLY', 'CONFIRM'].includes(status) && (
+            <button type="button" onClick={onCancel}>
+              {t('예약취소')}
+            </button>
+          )}
+        </dd>
+      </dl>
       {email && (
         <dl>
           <dt>{t('이메일')}</dt>

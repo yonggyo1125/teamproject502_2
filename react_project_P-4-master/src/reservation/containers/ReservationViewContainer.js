@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Loading from '../../commons/components/Loading';
 import { apiGet } from '../apis/apiInfo';
+import apiCancel from '../apis/apiCancel';
 import { useParams } from 'react-router-dom';
 import ReservationItem from '../components/ReservationItem';
 
@@ -29,7 +30,7 @@ const ReservationViewContainer = ({ setPageTitle }) => {
   const { t } = useTranslation();
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(false);
-  
+
   const { orderNo } = useParams();
 
   useEffect(() => {
@@ -43,15 +44,34 @@ const ReservationViewContainer = ({ setPageTitle }) => {
     setLoading(false);
   }, [orderNo, setPageTitle]);
 
+  // 예약 취소 처리
+  const onCancel = useCallback(
+    (orderNo) => {
+      if (!window.confirm(t('정말_취소하겠습니까?'))) {
+        return;
+      }
+
+      (async () => {
+        try {
+          const res = await apiCancel(orderNo);
+          setItem(res);
+        } catch (err) {
+          console.error(err);
+        }
+      })();
+    },
+    [t],
+  );
+
   if (loading || !item) {
     return <Loading />;
   }
 
   return (
     <ViewWrapper>
-      <ReservationItem item={item} />
-      <Seperator/>
-      <Seperator/>
+      <ReservationItem item={item} onCancel={onCancel} />
+      <Seperator />
+      <Seperator />
     </ViewWrapper>
   );
 };

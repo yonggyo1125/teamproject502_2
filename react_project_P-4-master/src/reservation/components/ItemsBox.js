@@ -18,16 +18,14 @@ const ItemBox = ({ item, className, onCancel }) => {
           <div className="name">{item?.name}</div>
           <div className="email">{item?.email}</div>
           <div className="mobile">{item?.mobile}</div>
-          <div>
-            {item?.statusStr}
-            {item && ['START', 'APPLY', 'CONFIRM'].includes(item.status) && (
-              <button type="button" onClick={() => onCancel(item.orderNo)}>
-                {t('예약취소')}
-              </button>
-            )}
-          </div>
+          <div>{item?.statusStr}</div>
         </div>
       </Link>
+      {item && ['START', 'APPLY', 'CONFIRM'].includes(item.status) && (
+        <button type="button" onClick={() => onCancel(item.orderNo)}>
+          {t('예약취소')}
+        </button>
+      )}
       <Link to={'/board/write/review?rstrId=' + rstrId}>{t('후기작성')}</Link>
     </li>
   );
