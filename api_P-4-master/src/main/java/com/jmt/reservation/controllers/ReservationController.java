@@ -6,12 +6,15 @@ import com.jmt.global.exceptions.BadRequestException;
 import com.jmt.global.rests.JSONData;
 import com.jmt.payment.services.PaymentConfig;
 import com.jmt.reservation.entities.Reservation;
+import com.jmt.reservation.services.ReservationCancelService;
 import com.jmt.reservation.services.ReservationInfoService;
 import com.jmt.reservation.services.ReservationPayService;
 import com.jmt.reservation.services.ReservationSaveService;
 import com.jmt.reservation.validators.ReservationValidator;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +28,7 @@ public class ReservationController {
     private final ReservationPayService payService;
     private final Utils utils;
     private final ReservationInfoService infoService;
+    private final ReservationCancelService cancelService;
 
     @PostMapping("/apply")
     public JSONData apply(@Valid @RequestBody RequestReservation form, Errors errors) {
@@ -41,6 +45,18 @@ public class ReservationController {
         PaymentConfig config = payService.getConfig(reservation.getOrderNo());
 
         return new JSONData(config);
+    }
+
+    /**
+     * 예약 취소
+     * @param orderNo
+     * @return
+     */
+    @GetMapping("/cancel/{orderNo}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Void> cancel(@PathVariable("orderNo") Long orderNo) {
+
+        return null;
     }
 
     public void payProcess() {
