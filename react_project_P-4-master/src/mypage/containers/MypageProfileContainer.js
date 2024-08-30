@@ -25,7 +25,7 @@ const MypageProfileContainer = () => {
 
       const _errors = {};
       let hasErrors = false;
-      
+
       /**
        * 필수항목 검증
        * 1. 회원명(이름)
@@ -37,6 +37,22 @@ const MypageProfileContainer = () => {
       if (form?.password?.trim()) {
         requiredFields.confirmPassword = t('비밀번호를_확인하세요.');
       }
+
+      for (const [field, message] of Object.entries(requiredFields)) {
+        if (!form[field] || !form[field].trim()) {
+          _errors[field] = _errors[field] ?? [];
+
+          _errors[field].push(message);
+          hasErrors = true;
+        }
+      }
+
+      setErrors(_errors);
+      if (hasErrors) {
+        return;
+      }
+
+      
     },
     [t, form],
   );
