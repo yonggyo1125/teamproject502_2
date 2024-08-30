@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { buttonColor } from '../../styles/color';
 import fontSize from '../../styles/fontSize';
 
-const  dark = buttonColor;
+const { jmt } = buttonColor;
 const { medium } = fontSize;
 const Wrapper = styled.nav`
   padding: 10px 0;
@@ -18,11 +18,12 @@ const Wrapper = styled.nav`
     border-radius: 10px;
     font-size: ${medium};
     line-height: 35px;
+    height: 35px;
   }
 
-  a:hover,
   a.on {
-    background-color: ${dark[2]};
+    background-color: ${jmt[2]};
+    color: #fff;
   }
 
   a + a {
@@ -40,7 +41,9 @@ const TabMenus = ({ items }) => {
             to={link}
             key={link}
             className={({ isActive }) => classNames({ on: isActive })}
-          />
+          >
+            {name}
+          </NavLink>
         ))}
       </Wrapper>
     )
