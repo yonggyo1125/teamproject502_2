@@ -34,6 +34,9 @@ const ViewContainer = ({ setPageTitle }) => {
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(false);
   const [mapOptions, setMapOptions] = useState({ height: '300px', zoom: 3 });
+  const [reviews, setReviews] = useState({});
+  const [page, setPage] = useState(1);
+
   const viewRef = useRef(null);
 
   const { rstrId } = useParams();
@@ -47,7 +50,7 @@ const ViewContainer = ({ setPageTitle }) => {
 
         setPageTitle(item.rstrNm);
         setItem(item);
-        
+
         const position = { lat: item.rstrLa, lng: item.rstrLo };
         setMapOptions((opt) => {
           const options = item.rstrLa
@@ -62,6 +65,17 @@ const ViewContainer = ({ setPageTitle }) => {
     })();
     setLoading(false);
   }, [rstrId, setPageTitle]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await apiReview(rstrId, page);
+        setReviews(res);
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+  }, [rstrId, page]);
 
   const onShowImage = useCallback((imageUrl) => {
     console.log('이미지 주소', imageUrl);
