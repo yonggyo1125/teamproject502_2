@@ -26,12 +26,12 @@ public class Reservation extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ReservationStatus status = ReservationStatus.START;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    //@JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     private Member member;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    //@JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="rstrId")
     private Restaurant restaurant;
 
