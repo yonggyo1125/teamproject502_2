@@ -96,16 +96,18 @@ const FileUpload = ({
 
   return (
     <>
-      ImageButton ? <ImageButton onClick={onButtonClick} /> : (
-      <SmallButton
-        width={width}
-        type="button"
-        color={color}
-        onClick={onButtonClick}
-      >
-        {children}
-      </SmallButton>
-      );
+      {ImageButton ? (
+        <ImageButton onClick={onButtonClick} />
+      ) : (
+        <SmallButton
+          width={width}
+          type="button"
+          color={color}
+          onClick={onButtonClick}
+        >
+          {children}
+        </SmallButton>
+      )}
       {message && <MessageBox color="danger">{message}</MessageBox>}
     </>
   );

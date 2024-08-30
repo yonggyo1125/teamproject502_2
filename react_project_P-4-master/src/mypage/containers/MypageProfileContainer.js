@@ -96,10 +96,13 @@ const MypageProfileContainer = () => {
   const profileImage = <img src={profileImageUrl} alt="profile" />;
   return (
     <>
-      <ProfileImage gid={form?.gid} fileUploadCallback={fileUploadCallback} />
+      <ProfileImage
+        gid={form?.gid}
+        fileUploadCallback={fileUploadCallback}
+        profileImage={profileImage}
+      />
       <ProfileForm
         form={form}
-        profileImage={profileImage}
         onChange={onChange}
         onSubmit={onSubmit}
         errors={errors}
