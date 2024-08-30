@@ -14,6 +14,8 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,7 +52,8 @@ public class RestaurantImageService {
         return null;
     }
 
-    public void update(Long rstrId, Restaurant restaurant) {
+    public List<RestaurantImage> update(Long rstrId, Restaurant restaurant) {
+        List<RestaurantImage> images = new ArrayList<>();
         QRestaurantImage restaurantImage = QRestaurantImage.restaurantImage;
         if (!imageRepository.exists(restaurantImage.restaurant.rstrId.eq(rstrId))) {
 
@@ -61,8 +64,9 @@ public class RestaurantImageService {
                         .rstrImgUrl(imageUrl)
                         .build();
                 imageRepository.saveAndFlush(image);
+                images.add(image);
             }
         }
-
+        return images;
     }
 }
