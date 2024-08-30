@@ -56,7 +56,6 @@ const ViewContainer = ({ setPageTitle }) => {
 
         window.scrollTo(0, 0);
       } catch (err) {
-        console.error(err);
         setMessage(err.message);
         setTimeout(function () {
           setMessage('');

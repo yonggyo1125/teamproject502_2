@@ -6,8 +6,7 @@ import { MainTitle } from '../../commons/components/TitleBox';
 import ViewContainer from '../containers/ViewContainer';
 
 const View = () => {
- const [pageTitle, setPageTitle] = useState('');
-
+  const [pageTitle, setPageTitle] = useState('');
 
   return (
     <>
@@ -16,7 +15,7 @@ const View = () => {
       </Helmet>
       <OuterBox>
         <MainTitle>{pageTitle}</MainTitle>
-        <ViewContainer />
+        <ViewContainer setPageTitle={setPageTitle} />
       </OuterBox>
     </>
   );
