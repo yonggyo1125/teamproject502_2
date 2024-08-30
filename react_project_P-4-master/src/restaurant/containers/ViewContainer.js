@@ -77,6 +77,8 @@ const ViewContainer = ({ setPageTitle }) => {
     })();
   }, [rstrId, page]);
 
+  const onPageClick = useCallback((page) => setPage(page), []);
+
   const onShowImage = useCallback((imageUrl) => {
     console.log('이미지 주소', imageUrl);
   }, []);
@@ -92,7 +94,7 @@ const ViewContainer = ({ setPageTitle }) => {
       </Wrapper>
       <ItemDescription item={item} />
       <Seperator />
-      <ItemTabmenu item={item} />
+      <ItemTabmenu item={item} reviews={reviews} onPageClick={onPageClick} />
       <Seperator />
 
       <h3>{t('매장위치')}</h3>
