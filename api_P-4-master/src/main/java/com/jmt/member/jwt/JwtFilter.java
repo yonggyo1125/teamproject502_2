@@ -31,7 +31,6 @@ public class JwtFilter extends GenericFilterBean {
      */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-
         String token = getToken(request);
         if (StringUtils.hasText(token)) {
             // 토큰으로 회원 인증 객체 -> 로그인 유지 처리

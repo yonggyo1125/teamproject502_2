@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BigButton } from '../../commons/components/Buttons';
+import PaymentInfo from '../components/PaymentInfo';
 
 const returnUrl = `${window.location.origin}/payment/process`;
 const closeUrl = `${window.location.origin}/payment/close`;
@@ -17,12 +18,13 @@ const ReservationPayContainer = ({ payConfig, form, data, setPageTitle }) => {
 
   return (
     <>
+      <PaymentInfo payConfig={payConfig} form={form} data={data} />
       <BigButton type="button" color="jmt" onClick={onPayProcess}>
         {t('결제하기')}
       </BigButton>
       <form id="inicisForm" method="POST">
         <input type="hidden" name="version" value="1.0" />
-        <input type="hidden" name="gopaymethod" />
+        <input type="hidden" name="gopaymethod" value="VBank" />
         <input type="hidden" name="mid" value={payConfig.mid} />
         <input type="hidden" name="oid" value={payConfig.oid} />
         <input type="hidden" name="price" value={payConfig.price} />

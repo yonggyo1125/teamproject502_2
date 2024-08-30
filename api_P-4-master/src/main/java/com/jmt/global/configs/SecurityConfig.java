@@ -47,7 +47,8 @@ public class SecurityConfig {
                                     "/reservation/**",
                                     "/board_data/**",
                                     "/review/**",
-                                    "/comment/**"
+                                    "/comment/**",
+                                    "/payment/**"
                             ).permitAll() // 회원가입, 로그인(토큰)은 모든 접근 가능
                             .requestMatchers("/board/admin/**").hasAnyAuthority("ADMIN")
                             .anyRequest().authenticated(); // 그외에는 인증 필요

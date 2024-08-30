@@ -41,7 +41,7 @@ public class ReservationSaveService {
                 .mobile(mobile)
                 .payMethod(payMethod == null? null : PayMethod.valueOf(payMethod))
                 .persons(Math.max(form.getPersons(), 1))
-                .price(1000)
+                .price(10000)
                 .restaurant(restaurant)
                 .member(memberUtil.getMember())
                 .rName(restaurant.getRstrNm())
