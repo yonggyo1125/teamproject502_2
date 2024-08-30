@@ -1,11 +1,14 @@
 import React, { useState, useCallback, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import UserInfoContext from '../../member/modules/UserInfoContext';
 import ProfileForm from '../component/ProfileForm';
+import { updateProfile } from '../apis/apiMypage';
 
 const MypageProfileContainer = () => {
   const {
     states: { userInfo },
+    actions: { setUserInfo },
   } = useContext(UserInfoContext);
   const initialForm = userInfo;
   delete initialForm.password;
@@ -14,6 +17,7 @@ const MypageProfileContainer = () => {
   const [errors, setErrors] = useState({});
 
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const onChange = useCallback((e) => {
     setForm((form) => ({ ...form, [e.target.name]: e.target.value }));
@@ -60,7 +64,23 @@ const MypageProfileContainer = () => {
       }
 
       // 회원정보 수정 처리 S
-
+      (async () => {
+        try {
+          const res = await updateProfile(form);
+          // 회원 정보 수정 완료 후 -> context api 쪽 정보 업데이트
+          // form 초기화, 마이페이지 메인으로 이동
+          setUserInfo(res);
+          const newForm = res;
+          delete newForm.password;
+          setForm(newForm);
+        } catch (err) {
+          console.error(err);
+          const messages = err.message.global
+            ? err.message
+            : { global: [err.message] };
+          setErrors(messages);
+        }
+      })();
       // 회원정보 수정 처리 E
     },
     [t, form],
