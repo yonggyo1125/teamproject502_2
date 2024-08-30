@@ -10,11 +10,13 @@ const OuterChatBox = styled.div`
   height: ${({ height }) => height ?? '530px'};
   width: 100%;
   background: white;
-
+  .clear {
+    clear: both;
+  }
   .chat-box {
     width: 100%;
     height: 100%;
-    margin-top: ${({marginTop}) => marginTop ?? '15px'};
+    margin-top: ${({ marginTop }) => marginTop ?? '15px'};
     background: white;
     border-radius: 8px;
 
@@ -28,7 +30,7 @@ const OuterChatBox = styled.div`
     flex-grow: 1;
     overflow-y: auto;
     width: 100%;
-      &::-webkit-scrollbar {
+    &::-webkit-scrollbar {
       width: 2px;
     }
     &::-webkit-scrollbar-thumb {
@@ -51,6 +53,12 @@ const OuterChatBox = styled.div`
     padding: 10px 15px;
     border-radius: 16px 16px 0 16px;
   }
+  .user-message::after {
+    content: '';
+    display: block;
+    clear: right;
+  }
+
   .ai-message {
     float: left;
     align-self: flex-start;
@@ -58,6 +66,11 @@ const OuterChatBox = styled.div`
     color: ${color.dark};
     padding: 10px 15px;
     border-radius: 16px 16px 16px 0;
+  }
+  .ai-message::after {
+    content: '';
+    display: block;
+    clear: left;
   }
 
   .message-form {
@@ -95,17 +108,16 @@ const OuterChatBox = styled.div`
   }
 `;
 
-const ChatWrapper = ({height, marginTop}) => {
+const ChatWrapper = ({ height, marginTop }) => {
   const [messages, setMessages] = useState([]);
   const aiApiGet = (msg) => requestData(`/ai?message=${msg}`);
 
   const handleSendMessage = (message) => {
     aiApiGet(message).then((aiMessage) => {
-      
       setMessages((prevMessages) => [
         ...prevMessages,
         { text: message, isUser: true },
-        { text: aiMessage, isUser: false},
+        { text: aiMessage, isUser: false },
       ]);
     });
   };
@@ -113,7 +125,6 @@ const ChatWrapper = ({height, marginTop}) => {
   return (
     <OuterChatBox height={height} marginTop={marginTop}>
       <div className="chat-box">
-      
         <MessageList messages={messages} />
         <MessageForm onSendMessage={handleSendMessage} />
       </div>
@@ -122,9 +133,8 @@ const ChatWrapper = ({height, marginTop}) => {
 };
 
 const MessageList = ({ messages }) => {
-
   const scrollRef = useRef();
-  
+
   useEffect(() => {
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [messages]);
@@ -132,10 +142,7 @@ const MessageList = ({ messages }) => {
   return (
     <div className="messages-list" ref={scrollRef}>
       {messages.map((message, index) => (
-        <Message
-          key={index}
-          {...message}
-        />
+        <Message key={index} {...message} />
       ))}
     </div>
   );
@@ -143,13 +150,15 @@ const MessageList = ({ messages }) => {
 
 const Message = ({ text, isUser }) => {
   return (
-    <div className={isUser ? 'user-message' : 'ai-message'}>
-      <p>
-        <b>{isUser ? 'User' : 'AI'}</b>:{' '}
-        <span dangerouslySetInnerHTML={{__html: text}}
-        />
-      </p>
-    </div>
+    <>
+      <div className={isUser ? 'user-message' : 'ai-message'}>
+        <p>
+          <b>{isUser ? 'User' : 'AI'}</b>:{' '}
+          <span dangerouslySetInnerHTML={{ __html: text }} />
+        </p>
+      </div>
+      <div className="clear"></div>
+    </>
   );
 };
 
@@ -161,7 +170,7 @@ const MessageForm = ({ onSendMessage }) => {
     event.preventDefault();
     onSendMessage(message);
     setMessage('');
-    inputRef.current.focus();    
+    inputRef.current.focus();
   };
 
   return (
