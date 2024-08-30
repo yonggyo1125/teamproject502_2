@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-const ItemBox = ({ item, className }) => {
+const ItemBox = ({ item, className, onCancel }) => {
   const url = `/reservation/info/${item?.orderNo}`;
   const { t } = useTranslation();
   const {
@@ -18,6 +18,14 @@ const ItemBox = ({ item, className }) => {
           <div className="name">{item?.name}</div>
           <div className="email">{item?.email}</div>
           <div className="mobile">{item?.mobile}</div>
+          <div>
+            {item?.statusStr}
+            {item && ['START', 'APPLY', 'CONFIRM'].includes(item.status) && (
+              <button type="button" onClick={() => onCancel(item.orderNo)}>
+                {t('예약취소')}
+              </button>
+            )}
+          </div>
         </div>
       </Link>
       <Link to={'/board/write/review?rstrId=' + rstrId}>{t('후기작성')}</Link>
@@ -43,11 +51,13 @@ const ItemStyledBox = styled(ItemBox)`
   }
 `;
 
-const ItemsBox = ({ items = [] }) => {
+const ItemsBox = ({ items, onCancel }) => {
   return (
     <ul>
-      {items.length > 0 ? (
-        items.map((item, index) => <ItemStyledBox key={index} item={item} />)
+      {items && items.length > 0 ? (
+        items.map((item, index) => (
+          <ItemStyledBox key={index} item={item} onCancel={onCancel} />
+        ))
       ) : (
         <li>항목이없습니다.</li>
       )}

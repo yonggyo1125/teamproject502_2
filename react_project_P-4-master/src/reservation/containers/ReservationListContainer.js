@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { apiList } from '../../reservation/apis/apiInfo';
+import apiCancel from '../../reservation/apis/apiCancel';
 import ItemsBox from '../components/ItemsBox';
 import Pagination from '../../commons/components/Pagination';
 import Loading from '../../commons/components/Loading';
@@ -17,12 +19,12 @@ function getQueryString(searchParams) {
 
 const ReservationListContainer = () => {
   const [searchParams] = useSearchParams();
-
   const [search, setSearch] = useState(() => getQueryString(searchParams));
   const [items, setItems] = useState([]);
   const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(false);
 
+  const { t } = useTranslation();
 
   useEffect(() => {
     (async () => {
@@ -33,7 +35,6 @@ const ReservationListContainer = () => {
         setItems(items);
         setPagination(pagination);
         setLoading(false);
-
       } catch (err) {
         console.error(err);
       }
@@ -45,6 +46,24 @@ const ReservationListContainer = () => {
     setSearch((search) => ({ ...search, page: p }));
   }, []);
 
+  // 예약 취소 처리
+  const onCancel = useCallback((orderNo) => {
+    if (!window.confirm(t('정말_취소하겠습니까?'))) {
+      return;
+    }
+
+    (async () => {
+      try {
+        const res = await apiCancel(orderNo);
+        setItems((items) =>
+          items.map((item) => (item.orderNo === orderNo ? res : item)),
+        );
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+  }, [t]);
+
   // 로딩 처리
   if (loading) {
     return <Loading />;
@@ -52,7 +71,7 @@ const ReservationListContainer = () => {
 
   return (
     <>
-      <ItemsBox items={items} />
+      <ItemsBox items={items} onCancel={onCancel} />
       {items.length > 0 && (
         <Pagination onClick={onChangePage} pagination={pagination} />
       )}
