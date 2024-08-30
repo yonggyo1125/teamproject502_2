@@ -8,6 +8,7 @@ import Loading from '../../commons/components/Loading';
 import { apiFileDelete } from '../../commons/libs/file/apiFile';
 import UserInfoContext from '../../member/modules/UserInfoContext';
 import { write, update, getInfo } from '../apis/apiBoard';
+import { apiGet } from '../../restaurant/apis/apiInfo';
 
 const DefaultForm = loadable(() => import('../components/skins/default/Form'));
 const GalleryForm = loadable(() => import('../components/skins/gallery/Form'));
@@ -43,10 +44,20 @@ const FormContainer = ({ setPageTitle }) => {
     poster: userInfo?.userName,
   };
 
-  if (rstrId) {
-    initialForm.num1 = rstrId;
-    
-  }
+  useEffect(() => {
+    if (!rstrId) {
+      return;
+    }
+
+    (async () => {
+      try {
+        const res = await apiGet(rstrId);
+        setForm((form) => ({ ...form, restaurant: res }));
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+  }, [rstrId]);
 
   const [board, setBoard] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -79,6 +90,12 @@ const FormContainer = ({ setPageTitle }) => {
         if (!res.editable) {
           navigate(-1);
           return;
+        }
+
+        // 수정시 식당 정보가 있는 경우
+        if (res.num1) {
+          const restaurant = await apiGet(res.num1);
+          res.restaurant = restaurant;
         }
 
         setForm(res);
