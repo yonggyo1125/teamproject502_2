@@ -15,6 +15,10 @@ public enum ReservationStatus {
         this.title = title;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
     public static List<String[]> getList() {
         return List.of(
                 new String[] {START.name(), START.title},

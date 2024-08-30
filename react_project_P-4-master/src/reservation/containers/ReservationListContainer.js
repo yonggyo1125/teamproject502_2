@@ -47,22 +47,25 @@ const ReservationListContainer = () => {
   }, []);
 
   // 예약 취소 처리
-  const onCancel = useCallback((orderNo) => {
-    if (!window.confirm(t('정말_취소하겠습니까?'))) {
-      return;
-    }
-
-    (async () => {
-      try {
-        const res = await apiCancel(orderNo);
-        setItems((items) =>
-          items.map((item) => (item.orderNo === orderNo ? res : item)),
-        );
-      } catch (err) {
-        console.error(err);
+  const onCancel = useCallback(
+    (orderNo) => {
+      if (!window.confirm(t('정말_취소하겠습니까?'))) {
+        return;
       }
-    })();
-  }, [t]);
+
+      (async () => {
+        try {
+          const res = await apiCancel(orderNo);
+          setItems((items) =>
+            items.map((item) => (item.orderNo === orderNo ? res : item)),
+          );
+        } catch (err) {
+          console.error(err);
+        }
+      })();
+    },
+    [t],
+  );
 
   // 로딩 처리
   if (loading) {

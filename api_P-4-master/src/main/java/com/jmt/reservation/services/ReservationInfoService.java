@@ -83,6 +83,7 @@ public class ReservationInfoService {
 
         List<Reservation> items = reservationRepository.findAll();
 
+        items.forEach(this::addInfo);
         return new ListData<>(items,pagination);
     }
 
@@ -102,6 +103,6 @@ public class ReservationInfoService {
         int totalPayPrice = price * persons;
         item.setTotalPayPrice(totalPayPrice);
 
-        item.setStatusStr(item.getStatus().name());
+        item.setStatusStr(item.getStatus().getTitle());
     }
 }
