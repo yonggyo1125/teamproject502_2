@@ -1,11 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
+import { useTranslation } from 'react-i18next';
 const ItemBox = ({ item = {}, className }) => {
-  const { orderNo = '', rName = '', rDateTime = '', persons = '', name = '', email = '', mobile = '' } = item;
+  const {
+    orderNo = '',
+    rName = '',
+    rDateTime = '',
+    persons = '',
+    name = '',
+    email = '',
+    mobile = '',
+  } = item;
   const url = `/reservation/info/${orderNo}`;
-
+  const { t } = useTranslation();
   return (
     <li className={className}>
       <Link to={url}>
@@ -18,6 +26,7 @@ const ItemBox = ({ item = {}, className }) => {
           <div className="mobile">{mobile}</div>
         </div>
       </Link>
+      <Link to={'/board/write/review?rstrId='}>{t('후기작성')}</Link>
     </li>
   );
 };

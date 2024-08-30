@@ -19,12 +19,10 @@ const Wrapper = styled.div`
     dt {
       width: 100px;
       font-weight: normal;
-      
     }
 
     dd {
       width: calc(100% - 120px) l;
-      
     }
 
     a {
@@ -34,20 +32,12 @@ const Wrapper = styled.div`
 
   dl:first-child {
     border-bottom: 1px solid #e5e5e5;
-    
   }
 `;
 
 const ReservationItem = ({ item }) => {
   const { t } = useTranslation();
-  const {
-    rName,
-    rDateTime,
-    persons,
-    name,
-    email,
-    mobile,
-  } = item;
+  const { rName, rDateTime, persons, name, email, mobile, restaurant } = item;
 
   return (
     <Wrapper>
