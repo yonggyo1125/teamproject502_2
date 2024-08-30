@@ -249,10 +249,16 @@ const FormContainer = ({ setPageTitle }) => {
               ? await update(seq, form)
               : await write(bid, form);
 
-          const url =
+          let url =
             locationAfterWriting === 'list'
               ? `/board/list/${bid}`
               : `/board/view/${res.seq}`;
+
+          if (form?.num1) {
+            // 식당 후기
+            url = `/restaurant/info/${form.num1}`;
+          }
+          
           navigate(url, { replace: true });
         } catch (err) {
           setErrors(err.message);
