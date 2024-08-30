@@ -8,7 +8,7 @@ const ProfileImage = ({ gid, profileImage, fileUploadCallback }) => {
   return (
     <Wrapper>
       <FileUpload
-        imageButton={profileImage}
+        ImageButton={profileImage}
         gid={gid}
         imageOnly={true}
         single={true}
