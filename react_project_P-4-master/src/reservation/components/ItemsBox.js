@@ -2,32 +2,25 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-const ItemBox = ({ item = {}, className }) => {
-  console.log(item);
-  const {
-    orderNo = '',
-    rName = '',
-    rDateTime = '',
-    persons = '',
-    name = '',
-    email = '',
-    mobile = '',
-  } = item;
-  const url = `/reservation/info/${orderNo}`;
+const ItemBox = ({ item, className }) => {
+  const url = `/reservation/info/${item?.orderNo}`;
   const { t } = useTranslation();
+  const {
+    restaurant: { rstrId, images },
+  } = item;
   return (
     <li className={className}>
       <Link to={url}>
         <div className="item-content">
-          <div className="rName">{rName}</div>
-          <div className="rDateTime">{rDateTime}</div>
-          <div className="persons">{persons}</div>
-          <div className="name">{name}</div>
-          <div className="email">{email}</div>
-          <div className="mobile">{mobile}</div>
+          <div className="rName">{item?.rName}</div>
+          <div className="rDateTime">{item?.rDateTime}</div>
+          <div className="persons">{item?.persons}</div>
+          <div className="name">{item?.name}</div>
+          <div className="email">{item?.email}</div>
+          <div className="mobile">{item?.mobile}</div>
         </div>
       </Link>
-      <Link to={'/board/write/review?rstrId='}>{t('후기작성')}</Link>
+      <Link to={'/board/write/review?rstrId=' + rstrId}>{t('후기작성')}</Link>
     </li>
   );
 };
