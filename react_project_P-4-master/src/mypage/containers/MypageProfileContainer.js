@@ -89,7 +89,17 @@ const MypageProfileContainer = () => {
     [t, form, navigate, setUserInfo],
   );
 
-  const fileUploadCallback = useCallback((files) => {}, []);
+  const fileUploadCallback = useCallback(
+    (files) => {
+      if (files.length === 0) {
+        return;
+      }
+
+      setForm((form) => ({ ...form, profileImage: files[0] }));
+      setUserInfo((userInfo) => ({ ...userInfo, profileImage: files[0] }));
+    },
+    [setUserInfo],
+  );
 
   const profileImage = form?.profileImage?.fileUrl;
   return (
