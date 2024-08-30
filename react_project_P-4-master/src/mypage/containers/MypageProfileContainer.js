@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import UserInfoContext from '../../member/modules/UserInfoContext';
 import ProfileForm from '../component/ProfileForm';
+import ProfileImage from '../component/ProfileImage';
 import { updateProfile } from '../apis/apiMypage';
 
 const MypageProfileContainer = () => {
@@ -85,16 +86,23 @@ const MypageProfileContainer = () => {
       })();
       // 회원정보 수정 처리 E
     },
-    [t, form],
+    [t, form, navigate, setUserInfo],
   );
 
+  const fileUploadCallback = useCallback((files) => {}, []);
+
+  const profileImage = form?.
+
   return (
-    <ProfileForm
-      form={form}
-      onChange={onChange}
-      onSubmit={onSubmit}
-      errors={errors}
-    />
+    <>
+      <ProfileImage gid={form?.gid} fileUploadCallback={fileUploadCallback} />
+      <ProfileForm
+        form={form}
+        onChange={onChange}
+        onSubmit={onSubmit}
+        errors={errors}
+      />
+    </>
   );
 };
 
