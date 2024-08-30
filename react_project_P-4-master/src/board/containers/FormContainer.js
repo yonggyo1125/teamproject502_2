@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import loadable from '@loadable/component';
 import { produce } from 'immer';
@@ -11,10 +11,14 @@ import { write, update, getInfo } from '../apis/apiBoard';
 
 const DefaultForm = loadable(() => import('../components/skins/default/Form'));
 const GalleryForm = loadable(() => import('../components/skins/gallery/Form'));
+const ReviewForm = loadable(() => import('../components/skins/review/Form'));
+
 function skinRoute(skin) {
   switch (skin) {
     case 'gallery':
       return GalleryForm;
+    case 'review':
+      return ReviewForm;
     default:
       return DefaultForm;
   }
@@ -22,21 +26,31 @@ function skinRoute(skin) {
 
 const FormContainer = ({ setPageTitle }) => {
   const { bid, seq } = useParams();
+  const [searchParams] = useSearchParams();
 
   const {
     states: { isLogin, isAdmin, userInfo },
   } = useContext(UserInfoContext);
 
-  const [board, setBoard] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({
+  const rstrId = searchParams.get('rstrId');
+
+  const initialForm = {
     gid: '' + Date.now(),
     mode: 'write',
     notice: false,
     attachFiles: [],
     editorImages: [],
     poster: userInfo?.userName,
-  });
+  };
+
+  if (rstrId) {
+    initialForm.num1 = rstrId;
+    
+  }
+
+  const [board, setBoard] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState(initialForm);
 
   const [errors, setErrors] = useState({});
 
@@ -49,7 +63,8 @@ const FormContainer = ({ setPageTitle }) => {
    *
    */
   useEffect(() => {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
+
     if (!seq) {
       return;
     }
